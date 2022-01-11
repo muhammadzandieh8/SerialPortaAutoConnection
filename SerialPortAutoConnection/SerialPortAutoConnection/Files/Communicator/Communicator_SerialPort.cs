@@ -175,7 +175,7 @@ namespace SerialPortAutoConnection
                     try
                     {
                         SerialPort_Com.Open();
-                        m_isopen = true;
+                        IsOpen = true;
 
                         Thread ThreadCommunicatorSerialPort = new Thread(ReceivedData_SerialPort_Thread_Func);
                         ThreadCommunicatorSerialPort.Start();
@@ -219,7 +219,14 @@ namespace SerialPortAutoConnection
             {
                 if (SerialPort_Com.IsOpen)
                 {
-                    Count_BytesToRead = SerialPort_Com.BytesToRead;
+                    try
+                    {
+                        Count_BytesToRead = SerialPort_Com.BytesToRead;
+                    }
+                    catch
+                    {
+                        IsOpen = false;
+                    }
                 }
                 else
                 {
